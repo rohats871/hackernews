@@ -26,8 +26,9 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(5),
               child: TextField(
+                cursorColor: Colors.black12,
                 autocorrect: true,
                 decoration: InputDecoration(
                   hintText: "Search...",
@@ -40,10 +41,24 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Expanded(
-              child: Container(
-                color: Colors.white,
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 0, bottom: 10, left: 8, right: 8),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey,
+                  ),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: ListView.builder(
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: null,
+                      itemBuilder: (context, index) {
+                        return Container();
+                      }),
+                ),
               ),
             ),
           ],
