@@ -16,15 +16,18 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     getNews();
-    // TODO: implement initState
     super.initState();
-    _loading = false;
+    setState(() {
+      _loading = false;
+    });
   }
 
   getNews() async {
     News newsClass = News();
-    await newsClass.getNews();
-    articles = newsClass.news;
+    var article = await newsClass.getNews();
+    setState(() {
+      articles = article;
+    });
   }
 
   @override
@@ -44,45 +47,43 @@ class _HomePageState extends State<HomePage> {
       body: _loading
           ? Container(child: Center(child: CircularProgressIndicator()))
           : Container(
+              margin: EdgeInsets.all(8),
               child: Column(
+                textDirection: TextDirection.ltr,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: TextField(
-                      cursorColor: Colors.black12,
-                      autocorrect: true,
-                      decoration: InputDecoration(
-                        hintText: "Search...",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
+                  TextField(
+                    cursorColor: Colors.black12,
+                    autocorrect: true,
+                    decoration: InputDecoration(
+                      hintText: "Search...",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(50),
                       ),
-                      showCursor: true,
-                      textAlign: TextAlign.start,
                     ),
+                    showCursor: true,
+                    // textAlign: TextAlign.start,
                   ),
-                  SingleChildScrollView(
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 0, bottom: 10, left: 8, right: 8),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          width: MediaQuery.of(context).size.width,
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: articles.length,
-                              itemBuilder: (context, index) {
-                                return BlogTile(
-                                    imageUrl: articles[index].imageUrl,
-                                    text: articles[index].text,
-                                    title: articles[index].title,
-                                    type: articles[index].type);
-                              }),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(
+                    child: ClipRRect(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black45),
+                          borderRadius: BorderRadius.circular(10),
                         ),
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: articles.length,
+                            itemBuilder: (context, index) {
+                              print(articles.length);
+                              return BlogTile(
+                                  text: articles[index].text,
+                                  title: articles[index].title,
+                                  type: articles[index].type);
+                            }),
                       ),
                     ),
                   ),
@@ -94,16 +95,31 @@ class _HomePageState extends State<HomePage> {
 }
 
 class BlogTile extends StatelessWidget {
-  final imageUrl, title, text, type;
-  BlogTile(
-      {@required this.imageUrl,
-      @required this.text,
-      @required this.title,
-      @required this.type});
+  final title, text, type;
+  BlogTile({@required this.text, @required this.title, @required this.type});
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Image.network(imageUrl), Text(title), Text(text), Text(type)],
+      textDirection: TextDirection.ltr,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Text(
+          text,
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Text(type)
+      ],
     );
   }
 }
