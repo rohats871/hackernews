@@ -13,9 +13,10 @@ class News {
     if (response.statusCode == 200) {
       jsonData["hits"]?.forEach((element) {
         ArticleModel articleModel = ArticleModel(
-          type: element['type'] ?? "type",
+          // type: element['type'] ?? "type",
           title: element['title'],
           text: element['title'],
+          url: element['url'],
         );
         news.add(articleModel);
       });

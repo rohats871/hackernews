@@ -1,6 +1,7 @@
 class ArticleModel {
-  late String title;
-  late String text;
-  late String type;
-  ArticleModel({required this.type, required this.title, required this.text});
+  String title;
+  String text;
+  String url;
+  // late String type;
+  ArticleModel({required this.title, required this.text, required this.url});
 }

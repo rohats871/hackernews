@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hackerapp/Screens/article_view.dart';
 import 'package:hackerapp/helper/news.dart';
 import 'package:hackerapp/models/articleModel.dart';
 
@@ -37,9 +38,18 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        title: Text(
-          "Hacker News",
-          style: TextStyle(color: Colors.black),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Hacker",
+              style: TextStyle(color: Colors.black),
+            ),
+            Text(
+              "News",
+              style: TextStyle(color: Colors.lime),
+            ),
+          ],
         ),
       ),
 
@@ -52,6 +62,7 @@ class _HomePageState extends State<HomePage> {
                 textDirection: TextDirection.ltr,
                 children: [
                   TextField(
+                    onTap: () {},
                     cursorColor: Colors.black12,
                     autocorrect: true,
                     decoration: InputDecoration(
@@ -69,9 +80,10 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                     child: ClipRRect(
                       child: Container(
+                        padding: EdgeInsets.all(15),
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black45),
-                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.black12),
+                          borderRadius: BorderRadius.circular(40),
                         ),
                         width: MediaQuery.of(context).size.width,
                         child: ListView.builder(
@@ -81,8 +93,9 @@ class _HomePageState extends State<HomePage> {
                               print(articles.length);
                               return BlogTile(
                                   text: articles[index].text,
-                                  title: articles[index].title,
-                                  type: articles[index].type);
+                                  url: articles[index].url,
+                                  title: articles[index].title);
+                              // type: articles[index].type);
                             }),
                       ),
                     ),
@@ -95,31 +108,46 @@ class _HomePageState extends State<HomePage> {
 }
 
 class BlogTile extends StatelessWidget {
-  final title, text, type;
-  BlogTile({@required this.text, @required this.title, @required this.type});
+  final title, url, text;
+  BlogTile({
+    @required this.text,
+    @required this.title,
+    @required this.url,
+  });
   @override
   Widget build(BuildContext context) {
-    return Column(
-      textDirection: TextDirection.ltr,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700),
+    return GestureDetector(
+      onTap: () {
+        print("printed");
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ArticleView(blogUrl: url)));
+      },
+      child: Container(
+        child: Column(
+          textDirection: TextDirection.ltr,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black),
+            ),
+            Text(
+              text,
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black87),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+          ],
         ),
-        SizedBox(
-          height: 15,
-        ),
-        Text(
-          text,
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        Text(type)
-      ],
+      ),
     );
   }
 }
