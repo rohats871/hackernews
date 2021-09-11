@@ -4,8 +4,6 @@ import 'package:hackerapp/helper/news.dart';
 import 'package:hackerapp/models/articleModel.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -30,6 +28,8 @@ class _HomePageState extends State<HomePage> {
       articles = article;
     });
   }
+
+  late final String url;
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +62,11 @@ class _HomePageState extends State<HomePage> {
                 textDirection: TextDirection.ltr,
                 children: [
                   TextField(
-                    onTap: () {},
-                    cursorColor: Colors.black12,
+                    onChanged: (value) {
+                      url = value;
+                      print("text printed");
+                    },
+                    cursorColor: Colors.white,
                     autocorrect: true,
                     decoration: InputDecoration(
                       hintText: "Search...",

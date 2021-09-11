@@ -29,18 +29,8 @@ class MyApp extends StatelessWidget {
               ),
             ],
           ),
-          // child: Icon(
-          //   Icons.http,
-          //   size: 100,
-          // ),
         ),
       ),
     );
   }
 }
-// return AnimatedSplashScreen(
-// splash: 'images/splash.png',
-// nextScreen: MainScreen(),
-// splashTransition: SplashTransition.rotationTransition,
-// pageTransitionType: PageTransitionType.scale,
-// );
